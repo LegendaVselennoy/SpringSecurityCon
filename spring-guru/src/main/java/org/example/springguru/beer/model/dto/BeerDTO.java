@@ -1,8 +1,11 @@
-package org.example.springguru.beer.model;
+package org.example.springguru.beer.model.dto;
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import org.example.springguru.beer.model.BeerStyle;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,14 +13,20 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class Beer {
+public class BeerDTO {
 
     private UUID beerId;
     private Integer version;
+    @NotBlank
+    @NotNull
     private String beerName;
+    @NotNull
     private BeerStyle beerStyle;
+    @NotNull
+    @NotBlank
     private String upc;
     private Integer quantityOnHand;
+    @NotNull
     private BigDecimal price;
     private LocalDateTime createdDate;
     private LocalDateTime updateDate;

@@ -2,6 +2,9 @@ spring:
   application:
     name: spring-guru
   datasource:
+    hikari:
+      pool-name: RestDB-Pool
+      maximum-pool-size: 5
     url: jdbc:postgresql://localhost:5432/my_guru
     username: postgres
     password: rom7774256
@@ -11,9 +14,15 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         show_sql: true
         format_sql: true
+  flyway:
+    enabled: false
 
 logging:
   level:
     org:
+#      hibernate:
+#        orm:
+#          jdbc:
+#            bind: trace
       example:
         springguru: debug

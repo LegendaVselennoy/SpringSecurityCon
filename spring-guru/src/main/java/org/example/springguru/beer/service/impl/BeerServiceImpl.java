@@ -1,30 +1,32 @@
 package org.example.springguru.beer.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.springguru.beer.model.Beer;
+import org.example.springguru.beer.model.dto.BeerDTO;
 import org.example.springguru.beer.model.BeerStyle;
 import org.example.springguru.beer.service.BeerService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @Slf4j
 public class BeerServiceImpl implements BeerService {
 
-    private Map<UUID,Beer>beerMap;
+    private Map<UUID, BeerDTO>beerMap;
 
     public BeerServiceImpl() {
 
         beerMap = new HashMap<>();
 
-        Beer beer1=Beer.builder()
+        BeerDTO beer1= BeerDTO.builder()
                 .beerId(UUID.randomUUID())
                 .version(1)
                 .beerName("Galaxy")
@@ -36,7 +38,7 @@ public class BeerServiceImpl implements BeerService {
                 .updateDate(LocalDateTime.now())
                 .build();
 
-        Beer beer2=Beer.builder()
+        BeerDTO beer2= BeerDTO.builder()
                 .beerId(UUID.randomUUID())
                 .version(1)
                 .beerName("Crank")
@@ -49,7 +51,7 @@ public class BeerServiceImpl implements BeerService {
                 .build();
 
 
-        Beer beer3=Beer.builder()
+        BeerDTO beer3= BeerDTO.builder()
                 .beerId(UUID.randomUUID())
                 .version(1)
                 .beerName("Sunshine")
@@ -67,9 +69,9 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public Beer saveNewBeer(Beer beer) {
+    public BeerDTO saveNewBeer(BeerDTO beer) {
 
-        Beer savedBeer=Beer.builder()
+        BeerDTO savedBeer= BeerDTO.builder()
                 .beerId(UUID.randomUUID())
                 .createdDate(LocalDateTime.now())
                 .updateDate(LocalDateTime.now())
@@ -86,20 +88,55 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public List<Beer> listBeers() {
-        return new ArrayList<>(beerMap.values());
+    public Page<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageName, Integer pageSize) {
+//        return new ArrayList<>(beerMap.values());
+        return new PageImpl<>(new ArrayList<>(beerMap.values()));
     }
 
     @Override
-    public Beer getBeerById(UUID id) {
+    public Optional<BeerDTO> getBeerById(UUID id) {
 
         log.debug("getBeerById called");
 
-        return beerMap.get(id);
+        return Optional.of(beerMap.get(id));
     }
 
     @Override
-    public void updateBeerById(UUID beerId, Beer beer) {
-        beerMap.put(beerId,beer);
+    public Boolean deleteById(UUID beerId) {
+        beerMap.remove(beerId);
+        return true;
+    }
+
+    @Override
+    public void patchById(UUID beerId, BeerDTO beer) {
+        BeerDTO existing = beerMap.get(beerId);
+
+        if (beer.getBeerName()!=null){
+            existing.setBeerName(beer.getBeerName());
+        }
+        if (beer.getBeerStyle()!=null){
+            existing.setBeerStyle(beer.getBeerStyle());
+        }
+        if (beer.getPrice()!=null){
+            existing.setPrice(beer.getPrice());
+        }
+        if (beer.getQuantityOnHand()!=null){
+            existing.setQuantityOnHand(beer.getQuantityOnHand());
+        }
+        if (beer.getUpc()!=null){
+            existing.setUpc(beer.getUpc());
+        }
+    }
+
+    @Override
+    public Optional<BeerDTO> updateBeerById(UUID beerId, BeerDTO beer) {
+        BeerDTO existing=beerMap.get(beerId);
+        existing.setBeerName(beer.getBeerName());
+        existing.setPrice(beer.getPrice());
+        existing.setUpc(beer.getUpc());
+        existing.setQuantityOnHand(beer.getQuantityOnHand());
+
+//        beerMap.put(existing.getBeerId(),existing);
+        return Optional.of(existing);
     }
 }
