@@ -1,4 +1,4 @@
-package org.example.springguru.mappers;
+package org.example.springguru.beer.mappers;
 
 import org.example.springguru.beer.model.dto.CustomerDTO;
 import org.example.springguru.beer.model.entities.Customer;

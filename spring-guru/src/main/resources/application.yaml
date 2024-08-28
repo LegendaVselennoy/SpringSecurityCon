@@ -17,6 +17,14 @@ spring:
   flyway:
     enabled: false
 
+#  data:
+#    rest:
+#      base-path: /api/v1/rests
+
+rest:
+  template:
+    rootUrl: http://localhost:8080
+
 logging:
   level:
     org:

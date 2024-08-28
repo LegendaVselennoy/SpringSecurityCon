@@ -6,7 +6,7 @@ import org.example.springguru.beer.model.BeerStyle;
 import org.example.springguru.beer.model.dto.BeerDTO;
 import org.example.springguru.beer.model.entities.Beer;
 import org.example.springguru.beer.repository.BeerRepository;
-import org.example.springguru.mappers.BeerMapper;
+import org.example.springguru.beer.mappers.BeerMapper;
 import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,12 +20,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -33,6 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -192,7 +193,7 @@ public class BeerControllerIT {
         assertThat(responseEntity.getHeaders().getLocation()).isNotNull();
 
         String[] locationUUID = responseEntity.getHeaders().getLocation().getPath().split("/");
-        UUID saveUUID = UUID.fromString(locationUUID[4]);
+        UUID saveUUID = UUID.fromString(locationUUID[2]);
 
         Beer beer = beerRepository.findById(saveUUID).get();
         assertThat(beer).isNotNull();
@@ -217,6 +218,35 @@ public class BeerControllerIT {
         Page<BeerDTO> dtos = beerController.listBeers(null,null,null, 1, 25);
 
         assertThat(dtos.getContent().size()).isEqualTo(0);
+    }
+
+    @Test
+    void testUpdateBeerBadVersion() throws Exception {
+        Beer beer = beerRepository.findAll().get(0);
+        BeerDTO beerDTO = beerMapper.beerToBeerDTO(beer);
+
+        beerDTO.setBeerName("Updated Name");
+
+        MvcResult result = mockMvc.perform(put(BEER_PATH+beer.getBeerId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(beerDTO)))
+                .andExpect(status().isNoContent())
+                .andReturn();
+
+        beerDTO.setBeerName("Updated Name 2");
+
+        System.out.println(result.getResponse().getContentAsString());
+
+        MvcResult result2 = mockMvc.perform(put(BEER_PATH+beer.getBeerId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(beerDTO)))
+                .andExpect(status().isNoContent())
+                .andReturn();
+
+        System.out.println(result2.getResponse().getStatus());
+
     }
 
 }

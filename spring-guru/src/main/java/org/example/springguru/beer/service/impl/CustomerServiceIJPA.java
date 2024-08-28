@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.springguru.beer.model.dto.CustomerDTO;
 import org.example.springguru.beer.repository.CustomRepository;
 import org.example.springguru.beer.service.CustomerService;
-import org.example.springguru.mappers.CustomerMapper;
+import org.example.springguru.beer.mappers.CustomerMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
