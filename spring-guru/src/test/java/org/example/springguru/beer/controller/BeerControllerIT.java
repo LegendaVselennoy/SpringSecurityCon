@@ -32,6 +32,8 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -43,6 +45,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class BeerControllerIT {
 
     public static final String BEER_PATH = "/beer/";
+    private static final String USERNAME = "user";
+    private static final String PASSWORD = "password";
 
     @Autowired
     BeerController beerController;
@@ -59,7 +63,9 @@ public class BeerControllerIT {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+                .apply(springSecurity())
+                .build();
     }
 
 
@@ -142,6 +148,7 @@ public class BeerControllerIT {
     @Test
     void testListBeersByStyleAndNameShowInventoryFalse() throws Exception {
         mockMvc.perform(get(BEER_PATH)
+                        .with(BeerControllerTest.jwtRequestPostProcessor)
                         .queryParam("beerName", "PALE_ALE")
                         .queryParam("beerStyle", BeerStyle.PALE_ALE.name())
                         .queryParam("showInventory", "false"))
