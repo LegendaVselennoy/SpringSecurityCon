@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: spring-react
+#  datasource:
+#    url: r2dbc:h2://localhost:9092/myDb
+#    username: user
+#    password: pass
+#    driver-class-name: org.h2.Driver
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: trace
