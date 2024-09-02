@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: webclient
+
+webclient:
+  rooturl: http://localhost:8080
