@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockOAuth2Login;
+
 @SpringBootTest
 @AutoConfigureWebTestClient
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -20,6 +22,17 @@ public class BeerControllerTest {
 
     @Autowired
     WebTestClient webTestClient;
+
+    @Test
+    void testPatchIdNotFound() {
+        webTestClient
+                .mutateWith(mockOAuth2Login())
+                .patch()
+                .uri(BeerController.BEER_PATH_ID, 99)
+                .body(Mono.just(BeerRepositoryTest.getTestBeer()), BeerDTO.class)
+                .exchange()
+                .expectStatus().isNotFound();
+    }
 
     @Test
     void testDeleteBeer() {

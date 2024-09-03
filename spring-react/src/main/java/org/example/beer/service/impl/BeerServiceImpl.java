@@ -3,7 +3,7 @@ package org.example.beer.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.example.beer.mappers.BeerMapper;
 import org.example.beer.model.BeerDTO;
-import org.example.beer.BeerRepository;
+import org.example.beer.repository.BeerRepository;
 import org.example.beer.service.BeerService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

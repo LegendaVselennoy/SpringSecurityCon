@@ -2,7 +2,7 @@ package org.example.beer.bootstrap;
 
 import lombok.RequiredArgsConstructor;
 import org.example.beer.domain.Beer;
-import org.example.beer.BeerRepository;
+import org.example.beer.repository.BeerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

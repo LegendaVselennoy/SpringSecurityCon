@@ -2,7 +2,6 @@ package org.example.beer.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.beer.BeerRepository;
 import org.example.beer.config.DatabaseConfig;
 import org.example.beer.domain.Beer;
 import org.junit.jupiter.api.Test;
