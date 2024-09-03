@@ -5,7 +5,7 @@ import org.example.springguru.beer.model.dto.BeerDTO;
 import org.example.springguru.beer.model.entities.Beer;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class BeerMapperImpl implements BeerMapper {
 
     @Override
