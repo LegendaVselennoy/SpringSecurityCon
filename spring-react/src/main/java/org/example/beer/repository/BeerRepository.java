@@ -1,4 +1,4 @@
-package org.example.beer;
+package org.example.beer.repository;
 
 import org.example.beer.domain.Beer;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
