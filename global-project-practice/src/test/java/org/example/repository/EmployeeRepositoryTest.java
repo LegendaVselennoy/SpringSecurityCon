@@ -26,11 +26,11 @@ class EmployeeRepositoryTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;
-    private  Employee employee;
+    private Employee employee;
 
     @BeforeEach
     public void setUp() {
-         employee = Employee.builder()
+        employee = Employee.builder()
                 .firstName("Legend")
                 .lastName("INSPIRE")
                 .email("r@sir.com")
