@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/test}
+    username: ${DB_LOGIN:postgres}
+    password: ${DB_PASSWORD:rom7774256}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        hbm2ddl:
+          auto: validate
