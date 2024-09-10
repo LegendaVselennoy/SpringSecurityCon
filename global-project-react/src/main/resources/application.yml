@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: global-project-react
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/test
+    username: postgres
+    password: rom7774256
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        hbm2ddl:
+          auto: validate
