@@ -1,0 +1,46 @@
+name: legacy
+
+services:
+  first:
+    image: alpine:latest
+    command:
+      - ["top"]
+    networks:
+      - frontend
+  database:
+    image: postgres:latest
+    ports:
+      - "5435:5432"
+    entrypoint:
+      - POSTGRES_USER=us
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+     # - POSTGRES_PASSWORD=pass
+    networks:
+      - backend
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    secrets:
+      - postgres_password
+  web:
+    image: les
+    entrypoint:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/test
+    build:
+      context: .
+      dockerfile: prod.Dockerfile
+    networks:
+      - backend
+      - frontend
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+
+volumes:
+  db-data:
+
+secrets:
+  postgres_password:
+    file: ./secrets.txt
