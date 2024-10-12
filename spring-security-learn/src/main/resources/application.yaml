@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: spring-security-learn
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test?schema=test-engineer
+    username: postgres
+    password: "${DB_PASSWORD:password}"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  config:
+    import: application-prod.yaml
+  profiles:
+    active: prod
+
+#  security:
+#    user:
+#      name: admin
+#      password: 123
+
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          trace

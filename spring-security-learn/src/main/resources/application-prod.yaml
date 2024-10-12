@@ -1,0 +1,32 @@
+
+spring:
+  application:
+    name: spring-security-learn
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test?schema=test-engineer
+    username: postgres
+    password: "${DB_PASSWORD:password}"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  config:
+    activate:
+      on-profile: prod
+server:
+  servlet:
+    session:
+      timeout: ${SESSION_TIMEOUT:10m}
+
+#  security:
+#    user:
+#      name: admin
+#      password: 123
+
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          ERROR
