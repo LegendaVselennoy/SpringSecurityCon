@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: spring-security-oauth-learn
+  security:
+    user:
+      name: user
+      password: 123
+
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8180/...
+        opaquetoken:
+          introspection-uri: http://localhost:8180
+          client-id: "sdssd"
+          client-secret: "sds"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test?schema=test-engineer
+    username: postgres
+    password: "${DB_PASSWORD:password}"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
