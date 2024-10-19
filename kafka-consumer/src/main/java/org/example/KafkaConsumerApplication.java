@@ -1,13 +1,18 @@
 package org.example;
 
+
+import org.apache.kafka.common.Uuid;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.kafka.core.KafkaTemplate;
 
 @SpringBootApplication
 public class KafkaConsumerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(KafkaConsumerApplication.class, args);
+        System.out.println(Uuid.randomUuid());
     }
 
 //    @Bean
