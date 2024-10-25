@@ -5,7 +5,7 @@ import org.example.entity.Book;
 import org.mapstruct.Mapper;
 
 @Mapper
-public interface BookMapper {
+public interface    BookMapper {
 
     Book bookFromDto(BookDto bookDto);
     BookDto bookDtoFromBook(Book book);
