@@ -1,6 +1,6 @@
 package com.bookshop.service;
 
-import com.bookshop.dto.Book;
+import com.bookshop.entity.Book;
 import com.bookshop.exception.BookAlreadyExistsException;
 import com.bookshop.exception.BookNotFoundException;
 import com.bookshop.repository.BookRepository;
@@ -27,7 +27,7 @@ public class BookServiceTest {
     @Test
     void whenBookToCreateAlreadyExistsThenThrows() {
         var bookIsbn = "1234561232";
-        var bookToCreate = new Book(bookIsbn, "Title", "Author", 9.90);
+        var bookToCreate = Book.of(bookIsbn, "Title", "Author", 9.90, "Polarsophia");
         when(bookRepository.existsByIsbn(bookIsbn)).thenReturn(true);
         assertThatThrownBy(() -> bookService.addBookToCatalog(bookToCreate))
                 .isInstanceOf(BookAlreadyExistsException.class)

@@ -1,11 +1,13 @@
-package com.bookshop.dto;
+package com.bookshop.entity.dto;
 
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
+import org.springframework.data.annotation.CreatedDate;
 
-public record Book(
+public record BookDTO(
         @NotBlank(message = "The book ISBN must be defined.")
         @Pattern(
                 regexp = "^([0-9]{10}|[0-9]{13})$",
@@ -18,5 +20,17 @@ public record Book(
         String author,
         @NotNull(message = "The book price must be defined.")
         @Positive(message = "The book price must be greater than zero.")
-        Double price
-) {}
+        Double price,
+        @CreatedDate
+//        Instant createdDate,
+//        @LastModifiedDate
+//        Instant lastModifiedDate,
+        @Version
+        int version
+) {
+    public static BookDTO of(String isbn, String title, String author, Double price) {
+        return new BookDTO(
+                isbn, title, author, price, 0
+        );
+    }
+}
