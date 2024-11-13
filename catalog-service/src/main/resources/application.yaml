@@ -18,6 +18,12 @@ spring:
         max-interval: 2000
         multiplier: 1.1              # Multiplier to compute the next interval
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/PolarBookshop
+
   datasource:
     username: postgres
     password: ${DB_PASSWORD:postgres}
@@ -46,4 +52,13 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh
+        include: health, prometheus, heapdump
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name}, %X{trace_id},%X{span_id}]"

@@ -27,13 +27,18 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("com.github.dasniko:testcontainers-keycloak:3.3.1")
     testImplementation("org.testcontainers:postgresql")
     runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    runtimeOnly("io.opentelemetry.javaagent:opentelemetry-javaagent:1.33.3")
+    testImplementation("org.springframework.security:spring-security-test")
 }
 dependencyManagement {
     imports {

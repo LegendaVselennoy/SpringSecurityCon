@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: edge-service
+  cloud:
+    config:
+      enabled: false
+    gateway:
+      routes:
+          - id: catalog-route
+            uri: ${CATALOG_SERVICE_URL:http://localhost:9001}/books
+            predicates:
+              - Path=/books/**
+          - id: order-route
+            uri: ${ORDER_SERVICE_URL:http://localhost:9002}/orders
+            predicates:
+              - Path=/orders/**
+      default-filters:
+        - SaveSession
+        - TokenRelay
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: edge-service
+            client-secret: polar-keycloak-secret
+            scope: openid, roles
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/PolarBookShop
+
+server:
+  port: 9000
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s
+  shutdown: graceful
+
+logging:
+  group:
+    circuitbreaker: io.github.resilience4j, org.springframework.cloud.circuitbreaker
+  level:
+    circuitbreaker: info
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState, redis
